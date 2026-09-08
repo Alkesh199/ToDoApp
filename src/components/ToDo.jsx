@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./ToDo.css";
 import Header from "./Header";
 import Input from "./Input";
@@ -12,7 +12,16 @@ import DeleteTask from "./DeleteTask";
 
 const ToDo = () => {
   const [enteredText, setEnteredText] = useState("");
-  const [taskList, setTaskList] = useState([]);
+  const [taskList, setTaskList] = useState(()=>{
+    const savedTasks = localStorage.getItem("savedTasks");
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  });
+
+  // handling localStorage
+  useEffect(()=>{
+   localStorage.setItem("savedTasks",JSON.stringify(taskList));
+  },[taskList])
+
 
   const handleInputChange = (e) => setEnteredText(e.target.value);
 
