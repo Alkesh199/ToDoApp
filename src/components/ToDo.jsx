@@ -1,5 +1,9 @@
 import { useState } from "react";
 import "./ToDo.css";
+import Header from "./Header";
+import Input from "./Input";
+import ActiveTask from "./ActiveTask";
+import DeleteTask from "./DeleteTask";
 // clear task List on button Click
 // add deleted task to diff div with deleted Task Name
 // also add there option to move that task to new state back
@@ -74,92 +78,23 @@ const ToDo = () => {
 
   return (
     <div className="todo-app">
-      <div className="todo-header">
-        <h1>ToDo</h1>
-        <div className="todo-counter">
-          {completed}/{total} done
-        </div>
-      </div>
-
-      <div className="todo-input-row">
-        <input
-          placeholder="What would you like to do today?"
-          value={enteredText}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          aria-label="new-task"
-        />
-        <button className="btn btn-add" onClick={addTaskToList}>
-          Add
-        </button>
-        <button className="btn" onClick={clearTaskList}>
-          Clear All
-        </button>
-      </div>
-      <div className="task-container">
-        {activeTaskList.length === 0 ? (
-          <div className="empty-state">
-            No tasks yet — add your first task above.
-          </div>
-        ) : (
-          <ul className="task-list">
-            {activeTaskList.map((task) => (
-              <li className="task-item" key={task.id}>
-                <div className="task-main">
-                  <p
-                    className={`task-text ${task.status === "completed" ? "completed" : ""}`}
-                  >
-                    {task.value}
-                  </p>
-                  <div className="task-badges">
-                    <span className="badge">{task.status}</span>
-                  </div>
-                </div>
-
-                <div className="task-actions">
-                  <button
-                    className="btn-ghost"
-                    onClick={() => toggleComplete(task.id)}
-                  >
-                    {task.status === "completed" ? "Undo" : "Complete"}
-                  </button>
-                  <button
-                    className="btn btn-delete"
-                    onClick={() => deleteTask(task.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      <div className="task-container">
-        {deletedTaskList.length === 0 ? (
-          <div className="empty-state">No deleted tasks yet!!!</div>
-        ) : (
-          <ul className="task-list">
-            {deletedTaskList.map((task) => (
-              <li className="task-item" key={task.id}>
-                <div className="task-main">
-                  <p>{task.value}</p>
-                  <div className="task-badges">
-                    <span className="badge">{task.status}</span>
-                  </div>
-                </div>
-
-                <div className="task-actions">
-                  <button className="btn" onClick={() => moveToNew(task)}>
-                    Move to new
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <Header completed={completed} total={total}></Header>
+      <Input
+        enteredText={enteredText}
+        handleInputChange={handleInputChange}
+        handleKeyDown={handleKeyDown}
+        addTaskToList={addTaskToList}
+        clearTaskList={clearTaskList}
+      ></Input>
+      <ActiveTask
+        activeTaskList={activeTaskList}
+        toggleComplete={toggleComplete}
+        deleteTask={deleteTask}
+      ></ActiveTask>
+      <DeleteTask
+        deletedTaskList={deletedTaskList}
+        moveToNew={moveToNew}
+      ></DeleteTask>
     </div>
   );
 };
