@@ -9,7 +9,6 @@ import "./ToDo.css";
 const ToDo = () => {
   const [enteredText, setEnteredText] = useState("");
   const [taskList, setTaskList] = useState([]);
-  const [deletedTaskList, setDeletedTaskList] = useState([]);
 
   const handleInputChange = (e) => setEnteredText(e.target.value);
 
@@ -43,27 +42,36 @@ const ToDo = () => {
 
   const deleteTask = (id) => {
     if (!confirm("Delete this task?")) return;
-    const deleTedTask = taskList.filter((task) => task.id === id);
-    if (deleTedTask) {
-      setDeletedTaskList((task) => [...task, {...deleTedTask[0] , status:"deleted"}]);
-    }
-    setTaskList((tasks) => tasks.filter((t) => t.id !== id));
+    setTaskList((tasks) =>
+      tasks.map((task) => {
+        return task.id === id ? { ...task, status: "deleted" } : task;
+      }),
+    );
   };
 
   // clear all task
   const clearTaskList = () => {
     setTaskList([]);
-  }; 
+  };
 
-  // Move Deleted Task to New TaskList 
-  const moveToNew = (task) =>{
-   setTaskList((tasks) => [...tasks,{...task,status:"new"}]);
-   setDeletedTaskList((tasks)=>tasks.filter((t)=>t.id!==task.id));
-  }
- 
-  const total = taskList.length;
-  const completed = taskList.filter((t) => t.status === "completed").length;
-console.log("deleted task list",deletedTaskList)
+  // Move Deleted Task to New TaskList
+  const moveToNew = (task) => {
+    setTaskList((tasks) =>
+      tasks.map((t) => {
+        return t.id === task.id ? { ...task, status: "new" } : t;
+      }),
+    );
+  };
+
+  //
+  const activeTaskList = taskList.filter((task) => task.status !== "deleted");
+  const deletedTaskList = taskList.filter((task) => task.status === "deleted");
+
+  const total = activeTaskList.length;
+  const completed = activeTaskList.filter(
+    (t) => t.status === "completed",
+  ).length;
+
   return (
     <div className="todo-app">
       <div className="todo-header">
@@ -89,13 +97,13 @@ console.log("deleted task list",deletedTaskList)
         </button>
       </div>
       <div className="task-container">
-        {taskList.length === 0 ? (
+        {activeTaskList.length === 0 ? (
           <div className="empty-state">
             No tasks yet — add your first task above.
           </div>
         ) : (
           <ul className="task-list">
-            {taskList.map((task) => (
+            {activeTaskList.map((task) => (
               <li className="task-item" key={task.id}>
                 <div className="task-main">
                   <p
@@ -128,11 +136,10 @@ console.log("deleted task list",deletedTaskList)
         )}
       </div>
 
-      
-        <div className="task-container">
-            {deletedTaskList.length === 0 ? (
-        <div className="empty-state">No deleted tasks yet!!!</div>
-      ) : (
+      <div className="task-container">
+        {deletedTaskList.length === 0 ? (
+          <div className="empty-state">No deleted tasks yet!!!</div>
+        ) : (
           <ul className="task-list">
             {deletedTaskList.map((task) => (
               <li className="task-item" key={task.id}>
@@ -150,9 +157,9 @@ console.log("deleted task list",deletedTaskList)
                 </div>
               </li>
             ))}
-          </ul>)}
-        </div>
-      
+          </ul>
+        )}
+      </div>
     </div>
   );
 };
