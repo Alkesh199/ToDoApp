@@ -12,10 +12,15 @@ import DeleteTask from "./DeleteTask";
 
 const ToDo = () => {
   const [enteredText, setEnteredText] = useState("");
+  const [isDarkMode,setDarkMode] = useState(false);
   const [taskList, setTaskList] = useState(()=>{
     const savedTasks = localStorage.getItem("savedTasks");
     return savedTasks ? JSON.parse(savedTasks) : [];
   });
+
+  const handleDarkMode = () =>{
+    setDarkMode((prev)=>!prev);
+  }
 
   // handling localStorage
   useEffect(()=>{
@@ -86,8 +91,8 @@ const ToDo = () => {
   ).length;
 
   return (
-    <div className="todo-app">
-      <Header completed={completed} total={total}></Header>
+    <div className={`todo-app ${isDarkMode ? "dark" : ""}`}>
+      <Header completed={completed} total={total} toggleMode={handleDarkMode}></Header>
       <Input
         enteredText={enteredText}
         handleInputChange={handleInputChange}

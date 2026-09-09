@@ -1,6 +1,7 @@
 const DeleteTask = ({deletedTaskList,moveToNew}) =>{
     return (
 <div className="task-container">
+  <h3>Deleted Task List</h3>
         {deletedTaskList.length === 0 ? (
           <div className="empty-state">No deleted tasks yet!!!</div>
         ) : (

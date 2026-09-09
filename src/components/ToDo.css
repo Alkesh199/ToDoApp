@@ -11,6 +11,13 @@
   box-shadow: var(--shadow);
 }
 
+.todo-app.dark{
+    background: black !important;
+    color:white !important;
+}
+.dark  h1{
+color:white !important;
+}
 .task-container{
  border: 1px solid var(--border);
   border-radius: 14px;
