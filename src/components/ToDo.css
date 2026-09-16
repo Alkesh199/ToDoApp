@@ -15,7 +15,7 @@
     background: black !important;
     color:white !important;
 }
-.dark  h1{
+.dark  h1, .dark input{
 color:white !important;
 }
 .task-container{
@@ -148,6 +148,10 @@ color:white !important;
   background: rgba(255,80,80,0.08);
   color: #d84b4b;
   border: 1px solid rgba(216,75,75,0.12);
+}
+
+.dark .btn-delete{
+  background: #ffffff;
 }
 
 .empty-state {
