@@ -1,7 +1,7 @@
 const ActiveTask = ({activeTaskList,toggleComplete,deleteTask}) =>{
     return (
 <div className="task-container">
-  <h3>Avtived Task List</h3>
+  <h3>Activated Task List</h3>
         {activeTaskList.length === 0 ? (
           <div className="empty-state">
             No tasks yet — add your first task above.
